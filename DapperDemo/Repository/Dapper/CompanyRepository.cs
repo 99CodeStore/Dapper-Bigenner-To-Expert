@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace DapperDemo.Repository.Dapper
 {
+
     public class CompanyRepository : ICompanyRepository
     {
         private IDbConnection db;

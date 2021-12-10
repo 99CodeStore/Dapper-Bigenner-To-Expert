@@ -5,6 +5,8 @@ using DapperDemo.Models;
 using DapperDemo.Repository;
 using DapperDemo.Repository.Dapper;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace DapperDemo.Controllers
 {
@@ -43,18 +45,31 @@ namespace DapperDemo.Controllers
                 return NotFound();
             }
 
-            var company = _empRepo.Find(id.GetValueOrDefault());
-            if (company == null)
+            var employee = _empRepo.Find(id.GetValueOrDefault());
+
+            var company = _compRepo.Find(employee.CompanyId);
+
+            employee.Company = company;
+
+
+            if (employee == null)
             {
                 return NotFound();
             }
 
-            return View(company);
+            return View(employee);
         }
 
         // GET: Employees/Create
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> companyList = _compRepo.GetAll().Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.CompanyId.ToString()
+            });
+            ViewBag.CompanyList = companyList;
+
             return View();
         }
 
@@ -87,6 +102,14 @@ namespace DapperDemo.Controllers
             {
                 return NotFound();
             }
+
+            IEnumerable<SelectListItem> companyList = _compRepo.GetAll().Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.CompanyId.ToString()
+            });
+            ViewBag.CompanyList = companyList;
+
             return View(Employee);
         }
 
@@ -133,12 +156,17 @@ namespace DapperDemo.Controllers
                 return NotFound();
             }
 
-            var company = _empRepo.Find(id.GetValueOrDefault());
-            if (company == null)
+            var employee = _empRepo.Find(id.GetValueOrDefault());
+
+            var company = _compRepo.Find(employee.CompanyId);
+
+            employee.Company = company;
+
+            if (employee == null)
             {
                 return NotFound();
             }
-            return View(company);
+            return View(employee);
         }
 
         // POST: Companies/Delete/5
