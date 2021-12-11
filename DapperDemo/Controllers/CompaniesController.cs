@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using DapperDemo.Data;
 using DapperDemo.Models;
 using DapperDemo.Repository;
+using DapperDemo.Repository.Dapper;
 
 namespace DapperDemo.Controllers
 {
     public class CompaniesController : Controller
     {
         private readonly ICompanyRepository _repo;
+        private readonly IAdvanceDapperRepository advanceDapperRepository;
 
-        public CompaniesController(ICompanyRepository repo)
+        public CompaniesController(ICompanyRepository repo, IAdvanceDapperRepository advanceDapperRepository)
         {
             _repo = repo;
+            this.advanceDapperRepository = advanceDapperRepository;
         }
 
         // GET: Companies
@@ -34,7 +37,8 @@ namespace DapperDemo.Controllers
                 return NotFound();
             }
 
-            var company = _repo.Find(id.GetValueOrDefault());
+           // var company = _repo.Find(id.GetValueOrDefault());
+            var company = advanceDapperRepository.GetCompanyWithEmployees(id.GetValueOrDefault());
             if (company == null)
             {
                 return NotFound();

@@ -109,7 +109,7 @@ namespace DapperDemo.Repository.Dapper
             return company;
         }
 
-        public List<Employee> GetEmployeeWithCompany(int id)
+        public List<Employee> GetEmployeeWithCompany(int id=0)
         {
             var sql = "SELECT E.*,C.* FROM Employees AS E INNER JOIN Companies AS C ON E.CompanyId = C.CompanyId ";
             if (id != 0)
@@ -135,5 +135,6 @@ namespace DapperDemo.Repository.Dapper
         {
             return db.Query<Company>("SELECT * FROM Companies WHERE Name like '%' + @name + '%' ", new { name }).ToList();
         }
+        
     }
 }

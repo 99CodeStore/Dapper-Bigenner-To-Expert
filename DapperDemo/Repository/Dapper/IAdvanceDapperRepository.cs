@@ -5,7 +5,7 @@ namespace DapperDemo.Repository.Dapper
 {
     public interface IAdvanceDapperRepository
     {
-        List<Employee> GetEmployeeWithCompany(int id);
+        List<Employee> GetEmployeeWithCompany(int id=0);
 
         Company GetCompanyWithEmployees(int id);
 
